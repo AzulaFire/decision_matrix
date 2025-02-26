@@ -53,7 +53,7 @@ const HowTo = ({ handleTestDataChange, handleReset }) => {
             TEMPLATES
             <div className='my-4'>
               <Select onValueChange={(value) => handleTestDataChange(value)}>
-                <SelectTrigger className='w-[308px]'>
+                <SelectTrigger className='w-full'>
                   <SelectValue placeholder='Load Example Data:' />
                 </SelectTrigger>
                 <SelectContent>
