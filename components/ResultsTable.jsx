@@ -8,6 +8,15 @@ import {
   TableCell,
 } from '@/components/ui/table';
 import { Button } from './ui/button';
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select'; // Import ShadCN Select components
 
 const weightLabels = {
   1: 'Unimportant',
@@ -72,18 +81,28 @@ const ResultsTable = ({
                   }
                 >
                   <TableCell>{decision}</TableCell>
-                  {factors.map((_, fIndex) => (
+                  {factors.map((factor, fIndex) => (
                     <TableCell key={fIndex}>
-                      <input
-                        type='number'
-                        min='1'
-                        max='5'
-                        value={scores[dIndex]?.[fIndex] || 1}
-                        onChange={(e) =>
-                          handleScoreChange(dIndex, fIndex, e.target.value)
+                      <Select
+                        value={String(scores[dIndex]?.[fIndex]) || '1'} // Default to 1 if no score
+                        onValueChange={(value) =>
+                          handleScoreChange(dIndex, fIndex, value)
                         }
-                        className='w-16 h-8 text-center border rounded-md'
-                      />
+                      >
+                        <SelectTrigger className='w-16 h-8 text-center border rounded-md'>
+                          <SelectValue placeholder='Select score' />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectGroup>
+                            <SelectLabel>Score</SelectLabel>
+                            {[1, 2, 3, 4, 5].map((score) => (
+                              <SelectItem key={score} value={String(score)}>
+                                {score}
+                              </SelectItem>
+                            ))}
+                          </SelectGroup>
+                        </SelectContent>
+                      </Select>
                     </TableCell>
                   ))}
                   <TableCell className='font-bold'>{totalScore}</TableCell>
