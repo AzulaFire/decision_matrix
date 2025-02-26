@@ -48,7 +48,12 @@ const ResultsTable = ({
 
   return (
     <div className='mt-6'>
-      <h2 className='text-xl font-bold mb-2'>Results</h2>
+      <h2 className='text-xl font-bold mb-2'>
+        Results -{' '}
+        <span className='text-sm text-muted-foreground'>
+          Score each option from 1 (Very Poor) to 5 (Very Good).
+        </span>
+      </h2>
 
       {/* Make table scrollable on smaller screens */}
       <div className='overflow-x-auto'>
