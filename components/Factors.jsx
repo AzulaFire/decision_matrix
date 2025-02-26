@@ -38,7 +38,12 @@ const Factors = ({ factors, setFactors }) => {
 
   return (
     <div className='mt-6'>
-      <h2 className='text-xl font-bold mb-2'>Factors </h2>
+      <h2 className='text-xl font-bold mb-2'>
+        Factors -{' '}
+        <span className='text-sm text-muted-foreground'>
+          {factors.length}/10 - (Minimum 1, Maximum 10)
+        </span>
+      </h2>
       <span className='text-sm text-muted-foreground'>
         1: Unimportant, 2: Slightly Important, 3: Moderately Important, 4:
         Important, 5: Very Important

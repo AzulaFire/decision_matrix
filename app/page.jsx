@@ -159,12 +159,19 @@ export default function Home() {
 
   return (
     <main className='mx-auto md:w-5/6 w-[360px]'>
-      <h1 className='text-2xl font-bold my-4'>Decision Matrix</h1>
-      <HowTo
-        handleTestDataChange={handleTestDataChange}
-        handleReset={handleReset}
+      <div className='sticky top-0 bg-white z-10 border-b-0'>
+        <h1 className='text-2xl font-bold my-4'>Decision Matrix</h1>
+        <HowTo
+          handleTestDataChange={handleTestDataChange}
+          handleReset={handleReset}
+        />
+      </div>
+
+      <Decisions
+        decisions={decisions}
+        setDecisions={setDecisions}
+        setScores={setScores}
       />
-      <Decisions decisions={decisions} setDecisions={setDecisions} />
       <Factors factors={factors} setFactors={setFactors} />
       <ResultsTable
         decisions={decisions}

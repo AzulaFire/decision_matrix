@@ -55,7 +55,7 @@ const ResultsTable = ({
         <Table className='min-w-full border border-gray-300'>
           <TableHeader>
             <TableRow>
-              <TableHead>Decisions</TableHead>
+              <TableHead className='font-bold text-black'>Decisions</TableHead>
               {factors.map((factor, index) => (
                 <TableHead key={index} className='font-bold'>
                   {factor.name}{' '}
@@ -64,7 +64,7 @@ const ResultsTable = ({
                   </span>
                 </TableHead>
               ))}
-              <TableHead>Total</TableHead>
+              <TableHead className='font-bold text-black'>Total</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
