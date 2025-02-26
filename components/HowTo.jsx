@@ -12,15 +12,14 @@ import {
   SelectItem,
   SelectTrigger,
   SelectValue,
+  SelectLabel,
+  SelectGroup,
 } from '@/components/ui/select';
 
 import { FaQuestionCircle } from 'react-icons/fa';
+import { Button } from './ui/button';
 
-const HowTo = ({ setGetTemplate }) => {
-  const handleSelect = (selectValue) => {
-    setGetTemplate(selectValue);
-  };
-
+const HowTo = ({ handleTestDataChange, handleReset }) => {
   return (
     <Sheet>
       <SheetTrigger>
@@ -29,51 +28,47 @@ const HowTo = ({ setGetTemplate }) => {
       <SheetContent side='left'>
         <SheetHeader>
           <SheetTitle className='font-bold text-black text-xl mb-4'>
-            Decision Matrix: <br />
-            How To Use
+            Decision Matrix:
           </SheetTitle>
           <SheetDescription className='text-start font-bold text-sm text-black'>
-            1: Add a TITLE.
-            <br />
-            <br />
-            2: Define the DECIDING FACTORS and Evaluate WEIGHTS.
-            <br />
-            <br />
-            <span className='text-xs font-medium text-zinc-600'>
-              1 (Not Important) ~ 5 (Very Important)
-            </span>
-            <br />
-            <br />
-            3: Add the DECISIONS and Evaluate MEASURES.
-            <br />
-            <br />
-            <span className='text-xs font-medium text-zinc-600'>
-              1 (Very Poor) ~ 5(Very Good)
-            </span>
-            <br />
-            <br />
-            4: CALCULATE the RESULTS.
-            <br />
-            <br />
-            Click the Calculate button and the program runs through your data,
-            calculates and will highlight the best decision.
-            <br />
-            <br />
+            Instructions
+            <div className='my-4'>
+              <ol className='list-decimal list-inside'>
+                <li className='mb-2'>
+                  Enter your decision criteria and weights in the{' '}
+                  <span className='font-semibold'>Decisions</span> and{' '}
+                  <span className='font-semibold'>Factors</span> sections.
+                </li>
+                <li className='mb-2'>
+                  Click the <span className='font-semibold'>Calculate</span>{' '}
+                  button to generate a decision matrix.
+                </li>
+                <li className='mb-2'>
+                  Click the <span className='font-semibold'>Reset</span> button
+                  to start over.
+                </li>
+                <li className='mb-2'>Example templates are below.</li>
+              </ol>
+            </div>
             TEMPLATES
-            <br />
-            <br />
-            <Select onValueChange={(val) => handleSelect(val)}>
-              <SelectTrigger>
-                <SelectValue placeholder='- SELECT -' />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value='job'>Choosing a Job</SelectItem>
-                <SelectItem value='relocation'>Relocation</SelectItem>
-                <SelectItem value='car'>Buying a Car</SelectItem>
-                <SelectItem value='computer'>Buying a Computer</SelectItem>
-                <SelectItem value='test'>TEST DATA</SelectItem>
-              </SelectContent>
-            </Select>
+            <div className='my-4'>
+              <Select onValueChange={(value) => handleTestDataChange(value)}>
+                <SelectTrigger className='w-[308px]'>
+                  <SelectValue placeholder='Load Example Data:' />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectGroup>
+                    <SelectLabel>Select...</SelectLabel>
+                    <SelectItem value='cars'>Car Comparison</SelectItem>
+                    <SelectItem value='pcs'>PC Comparison</SelectItem>
+                    <SelectItem value='relocation'>Relocation</SelectItem>
+                  </SelectGroup>
+                </SelectContent>
+              </Select>
+            </div>
+            <div>
+              <Button onClick={handleReset}>Reset</Button>
+            </div>
           </SheetDescription>
         </SheetHeader>
       </SheetContent>

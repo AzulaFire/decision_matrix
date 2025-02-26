@@ -1,111 +1,86 @@
 'use client';
-import { useEffect, useState } from 'react';
-import { Input } from './ui/input';
+import { Input } from '@/components/ui/input';
+import { Button } from '@/components/ui/button';
 import {
   Select,
   SelectContent,
+  SelectGroup,
   SelectItem,
+  SelectLabel,
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-import {
-  carHeaders,
-  computerHeaders,
-  jobHeaders,
-  relocationHeaders,
-} from '@/Data/db';
 
-const Factors = ({ setGetFactors, getTemplate }) => {
-  let initialFields = {
-    Header1: { name: '', weight: '1' },
-    Header2: { name: '', weight: '1' },
-    Header3: { name: '', weight: '1' },
-    Header4: { name: '', weight: '1' },
-    Header5: { name: '', weight: '1' },
-    Header6: { name: '', weight: '1' },
-    Header7: { name: '', weight: '1' },
-    Header8: { name: '', weight: '1' },
-    Header9: { name: '', weight: '1' },
-    Header10: { name: '', weight: '1' },
-  };
-
-  if (getTemplate === 'job') {
-    initialFields = jobHeaders;
-  } else if (getTemplate === 'relocation') {
-    initialFields = relocationHeaders;
-  } else if (getTemplate === 'car') {
-    initialFields = carHeaders;
-  } else if (getTemplate === 'computer') {
-    initialFields = computerHeaders;
-  } else if (getTemplate === 'test') {
-    initialFields = computerHeaders;
-  }
-
-  const [fields, setFields] = useState(initialFields);
-
-  const handleInput = (headerName, newValue) => {
-    if (newValue.length > 0) {
-      setFields((prevFields) => ({
-        ...prevFields,
-        [headerName]: {
-          ...prevFields[headerName],
-          name: newValue,
-        },
-      }));
+const Factors = ({ factors, setFactors }) => {
+  const handleAddFactor = () => {
+    if (factors.length < 10) {
+      setFactors([...factors, { name: '', weight: 1 }]);
     }
   };
 
-  const handleSelect = (headerName, weightValue) => {
-    setFields((prevFields) => ({
-      ...prevFields,
-      [headerName]: {
-        ...prevFields[headerName],
-        weight: weightValue,
-      },
-    }));
+  const handleRemoveFactor = () => {
+    if (factors.length > 1) {
+      setFactors(factors.slice(0, -1));
+    }
   };
 
-  useEffect(() => {
-    setGetFactors(fields);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [fields]);
+  const handleFactorChange = (index, value) => {
+    const newFactors = [...factors];
+    newFactors[index].name = value;
+    setFactors(newFactors);
+  };
+
+  const handleWeightChange = (index, value) => {
+    const newFactors = [...factors];
+    newFactors[index].weight = Number(value);
+    setFactors(newFactors);
+  };
 
   return (
-    <div className='flex flex-col mt-4'>
-      <div className='flex flex-col px-4'>
-        <form>
-          {Object.entries(fields).map(([headerKey]) => (
-            <div
-              key={headerKey}
-              className='flex flex-col gap-4 my-4 lg:flex-row lg:items-end'
+    <div className='mt-6'>
+      <h2 className='text-xl font-bold mb-2'>Factors </h2>
+      <span className='text-sm text-muted-foreground'>
+        1: Unimportant, 2: Slightly Important, 3: Moderately Important, 4:
+        Important, 5: Very Important
+      </span>
+      <div className='grid gap-4 my-4 lg:grid-cols-5 grid-cols-1'>
+        {factors.map((factor, index) => (
+          <div key={index} className='flex items-center gap-4'>
+            <Input
+              type='text'
+              placeholder={`Factor ${index + 1}`}
+              value={factor.name}
+              onChange={(e) => handleFactorChange(index, e.target.value)}
+              className='flex-1'
+            />
+            <Select
+              value={String(factor.weight)}
+              onValueChange={(value) => handleWeightChange(index, value)}
             >
-              <label>{headerKey}:</label>
-              <Input
-                type='text'
-                name={headerKey}
-                className='w-full'
-                value={fields[headerKey].name}
-                onChange={(e) => handleInput(headerKey, e.target.value)}
-              />
-              <Select
-                onValueChange={(val) => handleSelect(headerKey, val)}
-                value={fields[headerKey].weight}
-                name='weight'
-              >
-                <SelectTrigger>
-                  <SelectValue placeholder='Weight' />
-                </SelectTrigger>
-                <SelectContent className='min-w-0'>
-                  <SelectItem value='1'>1 - Not Important</SelectItem>
-                  <SelectItem value='2'>2 - Slightly Important</SelectItem>
-                  <SelectItem value='3'>3 - Moderately Important</SelectItem>
-                  <SelectItem value='4'>4 - Important</SelectItem>
-                  <SelectItem value='5'>5 - Very Important</SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
-          ))}
-        </form>
+              <SelectTrigger className='w-[100px]'>
+                <SelectValue placeholder='Weight' />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectGroup>
+                  <SelectLabel>Importance</SelectLabel>
+                  {[1, 2, 3, 4, 5].map((weight) => (
+                    <SelectItem key={weight} value={String(weight)}>
+                      {weight}
+                    </SelectItem>
+                  ))}
+                </SelectGroup>
+              </SelectContent>
+            </Select>
+          </div>
+        ))}
+      </div>
+      <div className='space-x-4'>
+        <Button onClick={handleAddFactor} disabled={factors.length >= 10}>
+          +
+        </Button>
+        <Button onClick={handleRemoveFactor} disabled={factors.length <= 1}>
+          -
+        </Button>
       </div>
     </div>
   );
